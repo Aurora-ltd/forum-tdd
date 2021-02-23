@@ -1,0 +1,15 @@
+#Forum
+
+1. Thread
+2. Reply
+3. User
+
+
+A. Thread created by user
+B. A reply belongs to a thread and belongs to a user.
+
+// create thread
+ $thread = Thread::factory()->count(50)->create();
+
+ // create reply
+ $thread->each(function ($thread) { Reply::factory()->count(10)->create(['thread_id' => $thread->id]); });
