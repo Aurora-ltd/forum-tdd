@@ -18,6 +18,7 @@ Route::get('/', function () {
 });
 
 Route::get('/threads', [App\Http\Controllers\ThreadController::class, 'index']);
+Route::post('/threads', [App\Http\Controllers\ThreadController::class, 'store']);
 Route::get('/threads/{thread}', [App\Http\Controllers\ThreadController::class, 'show']);
 Route::post('/threads/{thread}/replies', [App\Http\Controllers\ReplyController::class, 'store']);
 
