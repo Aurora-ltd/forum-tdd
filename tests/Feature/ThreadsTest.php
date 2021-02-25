@@ -30,7 +30,7 @@ class ThreadsTest extends TestCase
     /** @test */
     public function a_user_can_read_a_single_thread()
     {
-        $this->get('/threads/' . $this->thread->id)
+        $this->get($this->thread->path())
                 ->assertSee($this->thread->title);
     }
 
@@ -40,7 +40,7 @@ class ThreadsTest extends TestCase
         $reply = Reply::factory()
                     ->create(['thread_id' => $this->thread->id]);
         // when we visite the thread page
-        $this->get('/threads/'.$this->thread->id)
+        $this->get($this->thread->path())
                 ->assertSee($reply->body);
         // Then we should see the replies
     }
