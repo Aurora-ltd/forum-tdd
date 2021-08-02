@@ -1,0 +1,6 @@
+id,name,email,email_verified_at,password,remember_token,created_at,updated_at
+1,Super Admin,super-admin@mail.com,NULL,$2y$10$0XF1JWAY8pzv7cYIu3oDHO2hoRA6Xe9VomCpu7KUV5v7sfm7Xd8Pu,NULL,2021-03-30 02:22:44,2021-03-30 02:24:38
+2,Admin,admin@mail.com,NULL,$2y$10$oY0Zs1u2VA//fU3/d3zbKOGSht7fb95Ae1y7ZH0oB2ExvsD6YYplS,NULL,2021-03-30 02:22:44,2021-03-30 02:22:44
+3,Editor,editor@gmail.com,NULL,$2y$10$1JN/3nKcS8QHe4bTb2NqzOEop9mlY7erIT7UYBvN.Hvj/c5SQ6PX.,NULL,2021-03-30 02:22:44,2021-03-30 02:22:44
+4,Member,member@gmail.com,NULL,D8ZqhKDXclGJCryheVhYRqXSUftClftjjdigTQYtTuM05DzkTB9knGAm3rQbao9wmT3Q58zecj5geafEI5Jv1gBqUpT1V0OLsRCb,NULL,2021-03-30 02:22:44,2021-03-30 02:22:44
+5,Mail Magazine,mailmagazine@gmail.com,NULL,WJVXD1MzpMlRk5OFYN9EDXcaDNO1epXntgJDjNsxR861zP7Y8V6xPKMtbQJ62MVWH0VE68etJE6BcbLzT5QmMdIrIHCsNttXwOLM,NULL,2021-03-30 02:22:44,2021-03-30 02:22:44

@@ -1,0 +1,6 @@
+name,email,password
+SuperTest Admin,super-admin@mail.com,$2y$10$0XF1JWAY8pzv7cYIu3oDHO2hoRA6Xe9VomCpu7KUV5v7sfm7Xd8Pu
+Admin,admin@mail.com,$2y$10$oY0Zs1u2VA//fU3/d3zbKOGSht7fb95Ae1y7ZH0oB2ExvsD6YYplS
+Editor,editor@gmail.com,$2y$10$1JN/3nKcS8QHe4bTb2NqzOEop9mlY7erIT7UYBvN.Hvj/c5SQ6PX.
+Member,member@gmail.com,D8ZqhKDXclGJCryheVhYRqXSUftClftjjdigTQYtTuM05DzkTB9knGAm3rQbao9wmT3Q58zecj5geafEI5Jv1gBqUpT1V0OLsRCb
+Mail Magazine,mailmagazine@gmail.com,WJVXD1MzpMlRk5OFYN9EDXcaDNO1epXntgJDjNsxR861zP7Y8V6xPKMtbQJ62MVWH0VE68etJE6BcbLzT5QmMdIrIHCsNttXwOLM
