@@ -30,4 +30,3 @@ create dummy data for thread
     $thread = Thread::factory(10)->create();
     $thread->each(function ($thread) { Reply::factory(10)->create(['thread_id' => $thread->id]); });
 ```
-
