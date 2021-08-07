@@ -19,11 +19,13 @@ class ParticipateInForumTest extends TestCase
     public function unauthenticated_users_may_not_add_replies()
     {
         $this->withoutExceptionHandling();
+        //     ->post('/threads/my-channel/1/replies', [])
+        //     ->assertRedirect('/login');
         $this->expectException(AuthenticationException::class);
         $thread = Thread::factory()->create();
 
         $reply = Reply::factory()->create();
-        $this->post($thread->path().'/replies', $reply->toArray());
+        $this->post('/threads/my-channel/1/replies', []);
     }
 
     /** @test */
@@ -37,6 +39,7 @@ class ParticipateInForumTest extends TestCase
         // And an existing thread\
         $thread = Thread::factory()->create();
 
+        // dd($thread->path().'/replies');
         // When the user adds a reply to the thread
         $reply = Reply::factory()->make();
         $this->post($thread->path().'/replies', $reply->toArray());

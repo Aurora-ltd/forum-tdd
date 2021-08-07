@@ -18,9 +18,10 @@ Route::get('/', function () {
 });
 
 Route::get('/threads', [App\Http\Controllers\ThreadController::class, 'index']);
+Route::get('/threads/create', [App\Http\Controllers\ThreadController::class, 'create']);
 Route::post('/threads', [App\Http\Controllers\ThreadController::class, 'store']);
-Route::get('/threads/{thread}', [App\Http\Controllers\ThreadController::class, 'show']);
-Route::post('/threads/{thread}/replies', [App\Http\Controllers\ReplyController::class, 'store']);
+Route::get('/threads/{channel}/{thread}', [App\Http\Controllers\ThreadController::class, 'show']);
+Route::post('/threads/{channel}/{thread}/replies', [App\Http\Controllers\ReplyController::class, 'store']);
 
 Auth::routes();
 
