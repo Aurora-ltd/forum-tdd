@@ -5,10 +5,11 @@ namespace Tests\Feature;
 use Tests\TestCase;
 use App\Models\User;
 use App\Models\Thread;
+use App\Models\Channel;
+use Illuminate\Auth\AuthenticationException;
 use Illuminate\Foundation\Testing\WithFaker;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Foundation\Testing\DatabaseMigrations;
-use Illuminate\Auth\AuthenticationException;
 
 class CreateThreadsTest extends TestCase
 {
@@ -17,6 +18,7 @@ class CreateThreadsTest extends TestCase
     /** @test */
     public function guests_may_not_create_threads()
     {
+        // $this->withoutExceptionHandling();
         $this->get('/threads/create')
             ->assertRedirect('/login');
 
@@ -31,13 +33,52 @@ class CreateThreadsTest extends TestCase
         $this->signIn();
 
         // When we hit the endpoint to create a new thread
-        $thread = create(Thread::class);
-        $this->post('/threads', $thread->toArray());
+        $thread = make(Thread::class);
 
         // Then when we visit the thread page
+        $response = $this->post('/threads', $thread->toArray());
+
         // We should see the new thread
-        $this->get($thread->path())
+        $this->get($response->headers->get('Location'))
                 ->assertSee($thread->title)
                 ->assertSee($thread->body);
+    }
+
+    /** @test */
+    public function a_thread_requires_a_tittle()
+    {
+        $this->publishThread(['title' => null])
+                ->assertSessionHasErrors('title');
+
+    }
+
+    /** @test */
+    public function a_thread_requires_a_body()
+    {
+        $this->publishThread(['body' => null])
+                ->assertSessionHasErrors('body');
+
+    }
+
+    /** @test */
+    public function a_thread_requires_a_valid_channel()
+    {
+        Channel::factory(2)->create();
+
+        $this->publishThread(['channel_id' => null])
+                ->assertSessionHasErrors('channel_id');
+
+        $this->publishThread(['channel_id' => 2])
+                ->assertSessionHasErrors('channel_id');
+
+    }
+
+    public function publishThread($override = [])
+    {
+        $this->signIn();
+
+        $thread = make(Thread::class, $override);
+
+        return  $this->post('/threads', $thread->toArray());
     }
 }

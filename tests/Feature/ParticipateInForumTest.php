@@ -21,6 +21,7 @@ class ParticipateInForumTest extends TestCase
         $this->withoutExceptionHandling();
         //     ->post('/threads/my-channel/1/replies', [])
         //     ->assertRedirect('/login');
+
         $this->expectException(AuthenticationException::class);
         $thread = Thread::factory()->create();
 
@@ -31,21 +32,27 @@ class ParticipateInForumTest extends TestCase
     /** @test */
     public function an_authenticate_user_may_participate_in_forum_threads()
     {
-        $this->withoutExceptionHandling();
-        // Given we have an authentication user
-        $user = User::factory()->create();
-        $this->be($user);
+        $this->signIn();
 
-        // And an existing thread\
         $thread = Thread::factory()->create();
-
-        // dd($thread->path().'/replies');
-        // When the user adds a reply to the thread
         $reply = Reply::factory()->make();
+
         $this->post($thread->path().'/replies', $reply->toArray());
 
         // Then their reply should be visible on the page
         $this->get($thread->path())
-            ->assertSee($reply->body);
+                    ->assertSee($reply->body);
+    }
+
+    /** @test */
+    public function a_reply_requires_a_body()
+    {
+        $this->signIn();
+
+        $thread = create(Thread::class);
+        $reply = make(Reply::class, ['body' => null]);
+
+        $this->post($thread->path().'/replies', $reply->toArray())
+                    ->assertSessionHasErrors('body');
     }
 }
