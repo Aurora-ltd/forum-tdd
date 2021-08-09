@@ -1,3 +1,6 @@
-id,name,email,password
-1,alam,alam@mail.com,123456
-2,rifat,rifat@mail.com,123456
+name,email,password
+SuperTest Admin,super-admin@mail.com,123456
+Admin,admin@mail.com,123456
+Editor,editor@gmail.com,123456
+Member,member@gmail.com,12345678
+Mail Magazine,mailmagazine@gmail.com,123456

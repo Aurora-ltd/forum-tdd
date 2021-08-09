@@ -1,4 +1,8 @@
 
 Todo:
-  ☐ laravel-csv-seeder install
-  ☐ prepare a user csv file
+  ✔ laravel-csv-seeder install @done(21-08-09 12:20)
+  ✔ prepare a user csv file @done(21-08-09 12:20)
+
+  Today:Task:
+    ✔ make password field with hash @done(21-08-09 12:22)
+    ☐ make relation with profile table then seed via csv

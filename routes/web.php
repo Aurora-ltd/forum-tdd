@@ -15,7 +15,7 @@ use Illuminate\Support\Facades\Route;
 */
 
 Route::get('/', function () {
-    dd(base_path().'/database/seeders/csvs/users.csv');
+    // dd(base_path().'/database/seeders/csvs/users.csv');
     return view('welcome');
 });
 
