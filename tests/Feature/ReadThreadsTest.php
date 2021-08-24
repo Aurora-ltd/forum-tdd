@@ -5,11 +5,9 @@ namespace Tests\Feature;
 use Tests\TestCase;
 use App\Models\Reply;
 use App\Models\Thread;
-use Illuminate\Foundation\Testing\WithFaker;
-use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Foundation\Testing\DatabaseMigrations;
 
-class ThreadsTest extends TestCase
+class ReadThreadsTest extends TestCase
 {
     use DatabaseMigrations;
     protected $thread;
@@ -43,5 +41,17 @@ class ThreadsTest extends TestCase
         $this->get($this->thread->path())
                 ->assertSee($reply->body);
         // Then we should see the replies
+    }
+
+    /** @test */
+    public function a_user_can_filter_threads_according_to_a_channel()
+    {
+        $channel = create('App\Models\Channel');
+        $threadInChannel = create('App\Models\Thread', ['channel_id' => $channel->id]);
+        $threadNotInChannel = create('App\Models\Thread');
+
+        $this->get('/threads/' . $channel->slug)
+            ->assertSee($threadInChannel->title)
+            ->assertDontSee($threadNotInChannel->title);
     }
 }
