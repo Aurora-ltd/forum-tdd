@@ -14,19 +14,13 @@
                     {{$thread->body}}
                 </div>
             </div>
-        </div>
-    </div>
-    <div class="row justify-content-center">
-        <div class="col-md-8 col-md-offset-2">
-            @foreach($thread->replies as $reply)
-                @include('threads.reply')
-            @endforeach
-        </div>
-    </div>
+        @foreach($replies as $reply)
+            @include('threads.reply')
+        @endforeach
 
-    @if(auth()->check())
-    <div class="row justify-content-center">
-        <div class="col-md-8 col-md-offset-2">
+        {{ $replies->links() }}
+
+        @if(auth()->check())
             <form action="{{$thread->path().'/replies'}}" method="POST">
                 @csrf
                 <div class="form-group">
@@ -36,10 +30,19 @@
 
                 <button type="submit" class="btn btn-primary">Post</button>
             </form>
+        @else
+        <p class="text-center">Please  <a href="{{route('login')}}">sign in</a> to participate in this discussion</p>
+        @endif
+    </div>
+    <div class="col-md-4">
+        <div class="panel panel-default">
+            <div class="panel-body">
+                <p>
+                    This thread was published {{ $thread->created_at->diffForHumans() }} by <a href="#">{{ $thread->creator->name }}</a>, and currently has <span>{{ $thread->replies_count }} {{ str_plural('comment', $thread->replies_count) }}</span>
+                </p>
+            </div>
         </div>
     </div>
-    @else
-    <p class="text-center">Please  <a href="{{route('login')}}">sign in</a> to participate in this discussion</p>
-    @endif
+</div>
 </div>
 @endsection
