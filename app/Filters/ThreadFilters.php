@@ -1,11 +1,12 @@
 <?php
+
 namespace App\Filters;
 
 use App\Models\User;
 
 class ThreadFilters extends Filters
 {
-    protected $filters = ['by'];
+    protected $filters = ['by', 'popular'];
     /**
      * fetch the user_id for the given username
      *
@@ -18,5 +19,18 @@ class ThreadFilters extends Filters
         $user = User::where('name', $username)->firstOrFail();
 
         return $this->builder->where('user_id', $user->id);
+    }
+
+    /**
+     * fetch the threads that have the most replies
+     *
+     * @param [type] $builder
+     * @return $this
+     */
+    protected function popular()
+    {
+        $this->builder->getQuery()->orders = [];
+
+        return $this->builder->orderBy('replies_count', 'desc');
     }
 }
