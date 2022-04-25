@@ -3,12 +3,8 @@
 namespace Tests\Feature;
 
 use Tests\TestCase;
-use App\Models\User;
 use App\Models\Thread;
 use App\Models\Channel;
-use Illuminate\Auth\AuthenticationException;
-use Illuminate\Foundation\Testing\WithFaker;
-use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Foundation\Testing\DatabaseMigrations;
 
 class CreateThreadsTest extends TestCase
@@ -40,24 +36,22 @@ class CreateThreadsTest extends TestCase
 
         // We should see the new thread
         $this->get($response->headers->get('Location'))
-                ->assertSee($thread->title)
-                ->assertSee($thread->body);
+            ->assertSee($thread->title)
+            ->assertSee($thread->body);
     }
 
     /** @test */
     public function a_thread_requires_a_tittle()
     {
         $this->publishThread(['title' => null])
-                ->assertSessionHasErrors('title');
-
+            ->assertSessionHasErrors('title');
     }
 
     /** @test */
     public function a_thread_requires_a_body()
     {
         $this->publishThread(['body' => null])
-                ->assertSessionHasErrors('body');
-
+            ->assertSessionHasErrors('body');
     }
 
     /** @test */
@@ -66,11 +60,10 @@ class CreateThreadsTest extends TestCase
         Channel::factory(2)->create();
 
         $this->publishThread(['channel_id' => null])
-                ->assertSessionHasErrors('channel_id');
+            ->assertSessionHasErrors('channel_id');
 
         $this->publishThread(['channel_id' => 999])
-                ->assertSessionHasErrors('channel_id');
-
+            ->assertSessionHasErrors('channel_id');
     }
 
     public function publishThread($override = [])
