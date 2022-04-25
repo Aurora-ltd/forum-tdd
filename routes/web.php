@@ -24,7 +24,7 @@ Route::get('/threads/{channel}/{thread}', [App\Http\Controllers\ThreadController
 Route::post('/threads', [App\Http\Controllers\ThreadController::class, 'store']);
 Route::get('/threads/{channel}', [App\Http\Controllers\ThreadController::class, 'index']);
 Route::post('/threads/{channel}/{thread}/replies', [App\Http\Controllers\ReplyController::class, 'store']);
-Route::post('replies/{reply}/favorites', [App\Http\Controllers\FavoriteController::class, 'store']);
+Route::post('/replies/{reply}/favorites', [App\Http\Controllers\FavoriteController::class, 'store']);
 
 Auth::routes();
 
