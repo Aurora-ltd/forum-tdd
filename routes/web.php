@@ -2,6 +2,7 @@
 
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\ProfilesController;
 
 /*
 |--------------------------------------------------------------------------
@@ -25,6 +26,8 @@ Route::post('/threads', [App\Http\Controllers\ThreadController::class, 'store'])
 Route::get('/threads/{channel}', [App\Http\Controllers\ThreadController::class, 'index']);
 Route::post('/threads/{channel}/{thread}/replies', [App\Http\Controllers\ReplyController::class, 'store']);
 Route::post('/replies/{reply}/favorites', [App\Http\Controllers\FavoriteController::class, 'store']);
+
+Route::get('/profiles/{user}', [ProfilesController::class, 'show'])->name('profile');
 
 Auth::routes();
 

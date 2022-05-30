@@ -9,11 +9,11 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 class Channel extends Model
 {
     use HasFactory;
-    
+
     /**
-     * Undocumented function
+     * Get the route key name for laravel
      *
-     * @return void
+     * @return string
      */
     public function getRouteKeyName()
     {
@@ -24,5 +24,4 @@ class Channel extends Model
     {
         return $this->hasMany(Thread::class);
     }
-    
 }
