@@ -2,13 +2,28 @@
 
 @section('content')
 <div class="container">
+    {{-- @dd('thread.show'); --}}
     <div class="row justify-content-center">
         <div class="col-md-8 col-md-offset-2">
             <div class="card">
                 <div class="card-header">
-                    <a href="{{ route('profile', $thread->creator->name) }}">{{ $thread->creator->name }}</a>
+
+                    <div class="level">
+                        <span class="flex">
+                            <a href="{{ route('profile', $thread->creator) }}">{{ $thread->creator->name }}</a>
                     posted:
-                    {{ $thread->title }}</div>
+                    {{ $thread->title }}
+                    @if (Auth::check())
+                        </span>
+                        <form action="{{ $thread->path() }}" method="POST">
+                            @csrf
+                            @method('DELETE')
+
+                            <button type="submit" class="btn btn-link">Delete Thread</button>
+                        </form>
+                    @endif
+                    </div>
+                </div>
 
                 <div class="card-body">
                     {{$thread->body}}

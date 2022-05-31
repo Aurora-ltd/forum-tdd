@@ -2,6 +2,9 @@
 
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\ReplyController;
+use App\Http\Controllers\ThreadController;
+use App\Http\Controllers\FavoriteController;
 use App\Http\Controllers\ProfilesController;
 
 /*
@@ -19,13 +22,14 @@ Route::get('/', function () {
     return view('welcome');
 });
 
-Route::get('/threads', [App\Http\Controllers\ThreadController::class, 'index']);
-Route::get('/threads/create', [App\Http\Controllers\ThreadController::class, 'create']);
-Route::get('/threads/{channel}/{thread}', [App\Http\Controllers\ThreadController::class, 'show']);
-Route::post('/threads', [App\Http\Controllers\ThreadController::class, 'store']);
-Route::get('/threads/{channel}', [App\Http\Controllers\ThreadController::class, 'index']);
-Route::post('/threads/{channel}/{thread}/replies', [App\Http\Controllers\ReplyController::class, 'store']);
-Route::post('/replies/{reply}/favorites', [App\Http\Controllers\FavoriteController::class, 'store']);
+Route::get('/threads', [ThreadController::class, 'index']);
+Route::get('/threads/create', [ThreadController::class, 'create']);
+Route::get('/threads/{channel}/{thread}', [ThreadController::class, 'show']);
+Route::delete('/threads/{channel}/{thread}', [ThreadController::class, 'destroy']);
+Route::post('/threads', [ThreadController::class, 'store']);
+Route::get('/threads/{channel}', [ThreadController::class, 'index']);
+Route::post('/threads/{channel}/{thread}/replies', [ReplyController::class, 'store']);
+Route::post('/replies/{reply}/favorites', [FavoriteController::class, 'store']);
 
 Route::get('/profiles/{user}', [ProfilesController::class, 'show'])->name('profile');
 
