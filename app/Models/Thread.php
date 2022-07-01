@@ -2,13 +2,14 @@
 
 namespace App\Models;
 
+use App\Http\Traits\RecordsActivity;
 use App\Models\Channel;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 
 class Thread extends Model
 {
-    use HasFactory;
+    use HasFactory, RecordsActivity;
 
     protected $guarded = [];
 
