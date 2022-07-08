@@ -43,7 +43,7 @@
                     <textarea name="body" class="form-control" placeholder="Have Something to Say" rows="5"></textarea>
                 </div>
 
-                <button type="submit" class="btn btn-primary">Post</button>
+                <button type="submit" class="btn btn-primary mt-4">Post</button>
             </form>
         @else
         <p class="text-center">Please  <a href="{{route('login')}}">sign in</a> to participate in this discussion</p>

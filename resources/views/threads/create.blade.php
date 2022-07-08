@@ -26,7 +26,7 @@
                             <label for="body">Body</label>
                             <textarea class="form-control" id="body" name="body" rows="3" required>{{old('body')}}</textarea>
                         </div>
-                            <button type="submit" class="btn btn-primary">Publish</button>
+                            <button type="submit" class="btn btn-primary mt-4 float-end">Publish</button>
                             @if ($errors->any())
                                 <div class="alert alert-danger">
                                     <ul>

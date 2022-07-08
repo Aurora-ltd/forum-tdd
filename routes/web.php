@@ -36,3 +36,7 @@ Route::get('/profiles/{user}', [ProfilesController::class, 'show'])->name('profi
 Auth::routes();
 
 Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
+
+Auth::routes();
+
+Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
