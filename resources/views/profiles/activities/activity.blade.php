@@ -1,4 +1,4 @@
-<div class="card">
+<div class="card mt-4">
     <div class="card-header">
         <div class="level">
             <span class="flex">
