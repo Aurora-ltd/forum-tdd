@@ -70,13 +70,42 @@ class ParticipateInForumTest extends TestCase
             ->assertStatus(403);
     }
 
-    public function test_authorized_users_cannot_delete_replies()
+    public function test_authorized_users_can_delete_replies()
     {
         $this->signIn();
 
         $reply = create('App\Models\Reply', ['user_id' => auth()->id()]);
 
-        $this->delete("/replies/{$reply->id}");
+        $this->delete("/replies/{$reply->id}")->assertStatus(302);
         $this->assertDatabaseMissing('replies', ['id' => $reply->id]);
+    }
+
+    public function test_authorized_users_can_update_replies()
+    {
+        // $this->withoutExceptionHandling();
+
+        $this->signIn();
+
+        $reply = create('App\Models\Reply', ['user_id' => auth()->id()]);
+
+        $updateReply = 'update reply';
+
+        $this->patch("/replies/{$reply->id}", ['body' => $updateReply]);
+
+        $this->assertDatabaseHas('replies', ['id' => $reply->id, 'body' => $updateReply]);
+    }
+
+    public function test_unautorized_users_cannot_update_replies()
+    {
+        $this->withExceptionHandling();
+
+        $reply = create('App\Models\Reply');
+
+        $this->patch("/replies/{$reply->id}")
+            ->assertRedirect('login');
+
+        $this->signIn()
+            ->patch("/replies/{$reply->id}")
+            ->assertStatus(403);
     }
 }
