@@ -20,6 +20,16 @@ import axios from 'axios'
                 this.editing = false
 
                 flash('Updated!')
+            },
+
+            destroy() {
+                axios.delete('/replies/' + this.attributes.id)
+
+                setTimeout(function() {
+                    flash('Your reply has been deleted.')
+                    location.reload();
+                }, 3000);
+
             }
         }
     }
