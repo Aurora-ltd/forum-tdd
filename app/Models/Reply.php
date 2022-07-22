@@ -11,7 +11,14 @@ class Reply extends Model
     use HasFactory, RecordsActivity;
 
     protected $guarded = [];
+
     protected $with = ['owner', 'favorites'];
+    /**
+     * The accessors to append to the model's array form.
+     *
+     * @var array
+     */
+    protected $appends = ['favoritesCount', 'isFavorited'];
 
     public function owner()
     {
@@ -31,9 +38,29 @@ class Reply extends Model
         }
     }
 
+    /**
+     * Unfavorite the current reply.
+     */
+    public function unfavorite()
+    {
+        $attributes = ['user_id' => auth()->id()];
+
+        $this->favorites()->where($attributes)->delete();
+    }
+
     public function isFavorited()
     {
         return !!$this->favorites()->where('user_id', auth()->id())->count();
+    }
+
+    /**
+     * Fetch the favorited status as a property.
+     *
+     * @return bool
+     */
+    public function getIsFavoritedAttribute()
+    {
+        return $this->isFavorited();
     }
 
     public function getFavoritesCountAttribute()
