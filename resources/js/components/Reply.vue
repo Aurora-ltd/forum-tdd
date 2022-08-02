@@ -78,16 +78,6 @@ import Favorite from './Favorite.vue'
                 axios.delete('/replies/' + this.data.id)
 
                 this.$emit('deleted', this.data.id)
-
-                // $(this.$el).fadeOut(300, () => {
-                //     flash('Your reply has been deleted.')
-                // })
-
-                // setTimeout(function() {
-                //     flash('Your reply has been deleted.')
-                //     location.reload();
-                // }, 3000);
-
             }
         }
     }

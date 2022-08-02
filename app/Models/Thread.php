@@ -56,9 +56,14 @@ class Thread extends Model
         return $this->belongsTo(Channel::class, 'channel_id');
     }
 
+    /**
+     * @param mixed $reply
+     *
+     * @return [type]
+     */
     public function addReply($reply)
     {
-        $this->replies()->create($reply);
+        return $this->replies()->create($reply);
     }
 
     public function scopeFilter($query, $filters)
