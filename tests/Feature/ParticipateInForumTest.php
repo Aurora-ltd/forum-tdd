@@ -6,8 +6,6 @@ use Tests\TestCase;
 use App\Models\User;
 use App\Models\Reply;
 use App\Models\Thread;
-use Illuminate\Foundation\Testing\WithFaker;
-use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Foundation\Testing\DatabaseMigrations;
 use Illuminate\Auth\AuthenticationException;
 
@@ -34,14 +32,13 @@ class ParticipateInForumTest extends TestCase
     {
         $this->signIn();
 
-        $thread = Thread::factory()->create();
-        $reply = Reply::factory()->make();
+        $thread = create(Thread::class);
+        $reply = make(Reply::class);
 
         $this->post($thread->path().'/replies', $reply->toArray());
 
-        // Then their reply should be visible on the page
-        $this->get($thread->path())
-                    ->assertSee($reply->body);
+        $this->assertDatabaseHas('replies', ['body' => $reply->body]);
+        $this->assertEquals(1, $thread->fresh()->replies_count);
     }
 
     /** @test */
@@ -78,6 +75,7 @@ class ParticipateInForumTest extends TestCase
 
         $this->delete("/replies/{$reply->id}")->assertStatus(302);
         $this->assertDatabaseMissing('replies', ['id' => $reply->id]);
+        $this->assertEquals(0, $reply->thread->fresh()->replies_count);
     }
 
     public function test_authorized_users_can_update_replies()
