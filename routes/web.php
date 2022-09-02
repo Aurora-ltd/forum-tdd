@@ -6,6 +6,7 @@ use App\Http\Controllers\ReplyController;
 use App\Http\Controllers\ThreadController;
 use App\Http\Controllers\FavoriteController;
 use App\Http\Controllers\ProfilesController;
+use App\Models\ThreadSubscription;
 
 /*
 |--------------------------------------------------------------------------
@@ -32,6 +33,7 @@ Route::get('/threads/{channel}/{thread}/replies', [ReplyController::class, 'inde
 Route::post('/threads/{channel}/{thread}/replies', [ReplyController::class, 'store']);
 Route::patch('/replies/{reply}', [ReplyController::class, 'update']);
 Route::delete('/replies/{reply}', [ReplyController::class, 'destroy']);
+Route::post('/threads/{channel}/{thread}/subscriptions', [ThreadSubscriptionController::class, 'store'])->middleware('auth');
 
 Route::post('/replies/{reply}/favorites', [FavoriteController::class, 'store']);
 Route::delete('/replies/{reply}/favorites', [FavoriteController::class, 'destroy']);
