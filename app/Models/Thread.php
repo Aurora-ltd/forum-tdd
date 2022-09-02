@@ -2,8 +2,9 @@
 
 namespace App\Models;
 
-use App\Http\Traits\RecordsActivity;
 use App\Models\Channel;
+use App\Models\ThreadSubscription;
+use App\Http\Traits\RecordsActivity;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 
@@ -69,5 +70,24 @@ class Thread extends Model
     public function scopeFilter($query, $filters)
     {
         return $filters->apply($query);
+    }
+
+    public function subscribe($userId = null)
+    {
+        $this->subscriptions()->create([
+            'user_id' => $userId ?: auth()->id()
+        ]);
+    }
+
+    public function unsubscribe($userId = null)
+    {
+        $this->subscriptions()
+            ->where('user_id', $userId ?: auth()->id())
+            ->delete();
+    }
+
+    public function subscriptions()
+    {
+        return $this->hasMany(ThreadSubscription::class);
     }
 }
