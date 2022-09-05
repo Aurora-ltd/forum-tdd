@@ -7,6 +7,7 @@ use App\Models\ThreadSubscription;
 use App\Http\Traits\RecordsActivity;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Support\Facades\DB;
 
 class Thread extends Model
 {
@@ -15,6 +16,8 @@ class Thread extends Model
     protected $guarded = [];
 
     protected $with = ['creator', 'channel'];
+
+    protected $appends = ['isSubscribedTo'];
 
     protected static function boot()
     {
@@ -89,5 +92,17 @@ class Thread extends Model
     public function subscriptions()
     {
         return $this->hasMany(ThreadSubscription::class);
+    }
+
+    /**
+     * Determine if the current user is subscribed to the thread.
+     *
+     * @return boolean
+     */
+    public function getIsSubscribedToAttribute()
+    {
+        return $this->subscriptions()
+            ->where('user_id', auth()->id())
+            ->exists();
     }
 }
