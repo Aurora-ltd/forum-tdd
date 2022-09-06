@@ -5,6 +5,7 @@ namespace App\Models;
 use App\Models\Channel;
 use App\Models\ThreadSubscription;
 use App\Http\Traits\RecordsActivity;
+use App\Notifications\ThreadWasUpdated;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Support\Facades\DB;
@@ -67,7 +68,27 @@ class Thread extends Model
      */
     public function addReply($reply)
     {
-        return $this->replies()->create($reply);
+        $reply = $this->replies()->create($reply);
+
+        // Prepare notifications for all subscribers.
+        // using higher order approach
+        $this->subscriptions
+            ->filter(function ($sub) use ($reply) {
+                return $sub->user_id != $reply->user_id;
+            })
+            ->each->notify($reply);
+            // ->each(function ($sub) use ($reply) {
+            //     $sub->notify($reply);
+            // });
+
+        // using manual approach
+        // foreach($this->subscriptions as $subscriptions) {
+        //     if ($subscriptions->user_id != $reply->user_id) {
+        //         $subscriptions->notify($reply);
+        //     }
+        // }
+
+        return $reply;
     }
 
     public function scopeFilter($query, $filters)
@@ -80,6 +101,8 @@ class Thread extends Model
         $this->subscriptions()->create([
             'user_id' => $userId ?: auth()->id()
         ]);
+
+        return $this;
     }
 
     public function unsubscribe($userId = null)

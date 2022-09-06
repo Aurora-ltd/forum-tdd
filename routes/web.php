@@ -6,6 +6,7 @@ use App\Http\Controllers\ReplyController;
 use App\Http\Controllers\ThreadController;
 use App\Http\Controllers\FavoriteController;
 use App\Http\Controllers\ProfilesController;
+use App\Http\Controllers\UserNotificationController;
 use App\Http\Controllers\ThreadSubscriptionController;
 
 /*
@@ -40,6 +41,8 @@ Route::post('/replies/{reply}/favorites', [FavoriteController::class, 'store']);
 Route::delete('/replies/{reply}/favorites', [FavoriteController::class, 'destroy']);
 
 Route::get('/profiles/{user}', [ProfilesController::class, 'show'])->name('profile');
+Route::get('/profiles/{user}/notifications', [UserNotificationController::class, 'index']);
+Route::delete('/profiles/{user}/notifications/{notification}', [UserNotificationController::class, 'destroy']);
 
 Auth::routes();
 
