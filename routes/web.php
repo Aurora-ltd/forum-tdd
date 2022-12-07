@@ -6,6 +6,8 @@ use App\Http\Controllers\ReplyController;
 use App\Http\Controllers\ThreadController;
 use App\Http\Controllers\FavoriteController;
 use App\Http\Controllers\ProfilesController;
+use App\Http\Controllers\UserNotificationController;
+use App\Http\Controllers\ThreadSubscriptionController;
 
 /*
 |--------------------------------------------------------------------------
@@ -32,15 +34,15 @@ Route::get('/threads/{channel}/{thread}/replies', [ReplyController::class, 'inde
 Route::post('/threads/{channel}/{thread}/replies', [ReplyController::class, 'store']);
 Route::patch('/replies/{reply}', [ReplyController::class, 'update']);
 Route::delete('/replies/{reply}', [ReplyController::class, 'destroy']);
+Route::post('/threads/{channel}/{thread}/subscriptions', [ThreadSubscriptionController::class, 'store'])->middleware('auth');
+Route::delete('/threads/{channel}/{thread}/subscriptions', [ThreadSubscriptionController::class, 'destroy'])->middleware('auth');
 
 Route::post('/replies/{reply}/favorites', [FavoriteController::class, 'store']);
 Route::delete('/replies/{reply}/favorites', [FavoriteController::class, 'destroy']);
 
 Route::get('/profiles/{user}', [ProfilesController::class, 'show'])->name('profile');
-
-Auth::routes();
-
-Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
+Route::get('/profiles/{user}/notifications', [UserNotificationController::class, 'index']);
+Route::delete('/profiles/{user}/notifications/{notification}', [UserNotificationController::class, 'destroy']);
 
 Auth::routes();
 

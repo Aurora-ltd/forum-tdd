@@ -58,6 +58,9 @@
                         </li>
                     @endif
                 @else
+
+                    <user-notifications></user-notifications>
+
                     <li class="nav-item dropdown">
                         <a class="nav-link dropdown-toggle" href="#" id="navbarDarkDropdownMenuLink" role="button" data-bs-toggle="dropdown" aria-expanded="false">
                             {{ Auth::user()->name }}
