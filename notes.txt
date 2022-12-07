@@ -15,3 +15,9 @@ B. A reply belongs to a thread and belongs to a user.
  $thread->each(function ($thread) { Reply::factory()->count(10)->create(['thread_id' => $thread->id]); });
 
  php artisan config:clear // if test fail
+
+// create notification
+App\Models\User::first()->notify(new App\Notifications\ThreadWasUpdated(App\Models\Thread::first(), App\Models\Reply::first()));\
+
+run node
+docker compose run --rm npm run watch

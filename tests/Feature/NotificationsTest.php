@@ -2,18 +2,23 @@
 
 namespace Tests\Feature;
 
-use Illuminate\Foundation\Testing\RefreshDatabase;
-use Illuminate\Foundation\Testing\WithFaker;
 use Tests\TestCase;
+use Illuminate\Foundation\Testing\RefreshDatabase;
+use Illuminate\Notifications\DatabaseNotification;
 
 class NotificationsTest extends TestCase
 {
     use RefreshDatabase;
 
+    public function setUp(): void
+    {
+        parent::setUp();
+
+        $this->signIn();
+    }
+
     public function test_a_notification_is_prepared_when_a_subscribed_thread_receives_a_new_reply_that_is_not_by_the_current_user()
     {
-        $this->signIn();
-
         // Given we have a thread
         $thread = create('App\Models\Thread');
 
@@ -42,8 +47,6 @@ class NotificationsTest extends TestCase
 
     public function test_a_user_can_fetch_their_unread_notifications()
     {
-        $this->signIn();
-
         // Given we have a thread
         $thread = create('App\Models\Thread');
 
@@ -63,7 +66,6 @@ class NotificationsTest extends TestCase
 
     public function test_a_user_can_mark_a_notification_as_read()
     {
-        $this->signIn();
 
         // Given we have a thread
         $thread = create('App\Models\Thread');

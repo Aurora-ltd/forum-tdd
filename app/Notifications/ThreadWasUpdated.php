@@ -45,7 +45,8 @@ class ThreadWasUpdated extends Notification
     public function toArray($notifiable)
     {
         return [
-            'message' => 'A Dummy Message has sent.'
+            'message' => $this->reply->owner->name. 'replies to' .$this->thread->title,
+            'link' => $this->reply->path()
         ];
     }
 }
