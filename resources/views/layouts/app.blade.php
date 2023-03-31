@@ -41,9 +41,7 @@
             @yield('content')
         </main>
 
-        <flash message="{{ session('flash') }}"></flash>
-        {{-- <flash></flash> --}}
-        {{-- <example-component></example-component> --}}
+        <flash :initial-data="{{ json_encode(['message' => session('flash')]) }}"></flash>
     </div>
 </body>
 </html>

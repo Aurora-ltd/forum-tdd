@@ -70,11 +70,13 @@ import moment from 'moment'
             update() {
                 axios.patch('/replies/' + this.data.id, {
                     body: this.body
-                });
-
-                this.editing = false
-
-                flash('Updated!')
+                })
+                .then(() => {
+                    this.editing = false
+                    this.data.body = this.body
+                    flash('Reply Updated!')
+                })
+                .catch(({ response }) => flash(response.data, "danger"))
             },
 
             destroy() {

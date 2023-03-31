@@ -5139,28 +5139,27 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
 /* harmony export */ });
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
-  props: ['message'],
+  props: ['initialData'],
   data: function data() {
     return {
-      body: '',
+      data: {},
       show: false
     };
   },
   created: function created() {
     var _this = this;
 
-    if (this.message) {
-      this.flash(this.message);
+    if (this.initialData) {
+      this.data = this.initialData;
     }
 
-    window.events.$on('flash', function (message) {
-      return _this.flash(message);
+    window.events.$on('flash', function (data) {
+      return _this.data = data;
     });
   },
   methods: {
-    flash: function flash(message) {
+    flash: function flash() {
       this.show = true;
-      this.body = message;
       this.hide();
     },
     hide: function hide() {
@@ -5169,6 +5168,18 @@ __webpack_require__.r(__webpack_exports__);
       setTimeout(function () {
         _this2.show = false;
       }, 3000);
+    }
+  },
+  computed: {
+    level: function level() {
+      return this.data.level || "success";
+    }
+  },
+  watch: {
+    data: function data() {
+      if (this.data.message !== null) {
+        this.flash();
+      }
     }
   }
 });
@@ -5258,6 +5269,9 @@ __webpack_require__.r(__webpack_exports__);
         flash('Your reply has been posted.');
 
         _this.$emit('created', data);
+      })["catch"](function (_ref2) {
+        var response = _ref2.response;
+        return flash(response.data, "danger");
       });
     }
   }
@@ -5366,11 +5380,18 @@ __webpack_require__.r(__webpack_exports__);
   },
   methods: {
     update: function update() {
+      var _this2 = this;
+
       axios.patch('/replies/' + this.data.id, {
         body: this.body
+      }).then(function () {
+        _this2.editing = false;
+        _this2.data.body = _this2.body;
+        flash('Reply Updated!');
+      })["catch"](function (_ref) {
+        var response = _ref.response;
+        return flash(response.data, "danger");
       });
-      this.editing = false;
-      flash('Updated!');
     },
     destroy: function destroy() {
       axios["delete"]('/replies/' + this.data.id);
@@ -5558,24 +5579,12 @@ var render = function render() {
       value: _vm.show,
       expression: "show"
     }],
-    staticClass: "alert alert-success alert-flash",
+    staticClass: "alert",
+    "class": "alert-".concat(_vm.level),
     attrs: {
       role: "alert"
     }
-  }, [_c("svg", {
-    staticClass: "bi bi-check-circle-fill me-2",
-    attrs: {
-      xmlns: "http://www.w3.org/2000/svg",
-      width: "24",
-      height: "24",
-      fill: "currentColor",
-      viewBox: "0 0 16 16"
-    }
-  }, [_c("path", {
-    attrs: {
-      d: "M16 8A8 8 0 1 1 0 8a8 8 0 0 1 16 0zm-3.97-3.03a.75.75 0 0 0-1.08.022L7.477 9.417 5.384 7.323a.75.75 0 0 0-1.06 1.06L6.97 11.03a.75.75 0 0 0 1.079-.02l3.992-4.99a.75.75 0 0 0-.01-1.05z"
-    }
-  })]), _vm._v(" "), _c("strong", [_vm._v("Success!")]), _vm._v(" " + _vm._s(_vm.body) + "\n")]);
+  }, [_vm._v("\n    " + _vm._s(_vm.data.message) + "\n")]);
 };
 
 var staticRenderFns = [];
@@ -5995,10 +6004,6 @@ __webpack_require__(/*! ./bootstrap */ "./resources/js/bootstrap.js");
 window.Vue = __webpack_require__(/*! vue */ "./node_modules/vue/dist/vue.esm.js").default;
 window.events = new vue__WEBPACK_IMPORTED_MODULE_0__.default();
 
-window.flash = function (message) {
-  window.events.$emit('flash', message);
-};
-
 window.Vue.prototype.authorize = function (handler) {
   // Additional admin privileges here.
   var user = window.App.user;
@@ -6075,8 +6080,11 @@ window.axios.defaults.headers.common = {
 
 window.events = new vue__WEBPACK_IMPORTED_MODULE_0__.default();
 
-window.flash = function (message) {
-  window.events.$emit('flash', message);
+window.flash = function (message, level) {
+  window.events.$emit('flash', {
+    message: message,
+    level: level
+  });
 };
 
 /***/ }),
@@ -11360,7 +11368,7 @@ __webpack_require__.r(__webpack_exports__);
 
 var ___CSS_LOADER_EXPORT___ = _node_modules_css_loader_dist_runtime_api_js__WEBPACK_IMPORTED_MODULE_0___default()(function(i){return i[1]});
 // Module
-___CSS_LOADER_EXPORT___.push([module.id, "\n.alert-flash {\n    position: fixed;\n    right: 25px;\n    bottom: 25px;\n}\n", ""]);
+___CSS_LOADER_EXPORT___.push([module.id, "\n.alert {\n    position: fixed;\n    right: 25px;\n    bottom: 25px;\n}\n", ""]);
 // Exports
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (___CSS_LOADER_EXPORT___);
 

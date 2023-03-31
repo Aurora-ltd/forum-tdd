@@ -1,35 +1,36 @@
 <template>
-    <div class="alert alert-success alert-flash" role="alert" v-show="show">
-        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="currentColor"
-        class="bi bi-check-circle-fill me-2" viewBox="0 0 16 16">
-            <path d="M16 8A8 8 0 1 1 0 8a8 8 0 0 1 16 0zm-3.97-3.03a.75.75 0 0 0-1.08.022L7.477 9.417 5.384 7.323a.75.75 0 0 0-1.06 1.06L6.97 11.03a.75.75 0 0 0 1.079-.02l3.992-4.99a.75.75 0 0 0-.01-1.05z"/>
-        </svg>
-        <strong>Success!</strong> {{ body }}
+    <div
+        class="alert "
+        :class="`alert-${level}`"
+        role="alert"
+        v-show="show">
+        {{ data.message }}
     </div>
 </template>
 
 <script>
     export default {
-        props: ['message'],
+        props: ['initialData'],
 
         data() {
             return {
-                body: '',
+                data: {},
                 show: false
             }
         },
 
         created() {
-            if(this.message) {
-                this.flash(this.message)
+            if(this.initialData) {
+                this.data = this.initialData
             }
-            window.events.$on('flash',(message) => this.flash(message))
+            window.events.$on(
+                'flash', data => (this.data = data)
+                )
         },
 
         methods: {
-            flash(message) {
+            flash() {
                 this.show = true
-                this.body = message
 
                 this.hide();
             },
@@ -39,12 +40,26 @@
                     this.show = false;
                 }, 3000);
             }
+        },
+
+        computed: {
+            level() {
+                return this.data.level || "success"
+            }
+        },
+
+        watch: {
+            data() {
+                if(this.data.message !== null) {
+                    this.flash()
+                }
+            }
         }
     }
 </script>
 
 <style>
-.alert-flash {
+.alert {
     position: fixed;
     right: 25px;
     bottom: 25px;
