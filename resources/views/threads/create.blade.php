@@ -20,11 +20,32 @@
                         </div>
                         <div class="form-group">
                             <label for="title">Title</label>
-                            <input type="text" id="title" name="title" class="form-control @error('title') is-invalid @enderror" value="{{old('title')}}" required>
+                            <input
+                                type="text"
+                                id="title"
+                                name="title"
+                                class="form-control @error('title') is-invalid @enderror"
+                                value="{{old('title')}}"
+                                required
+                            >
+
+                            @error('title')
+                                <div class="invalid-feedback">{{ $message }}</div>
+                            @enderror
                         </div>
                         <div class="form-group">
                             <label for="body">Body</label>
-                            <textarea class="form-control" id="body" name="body" rows="3" required>{{old('body')}}</textarea>
+                            <textarea
+                                class="form-control @error('body') is-invalid @enderror"
+                                id="body"
+                                name="body"
+                                rows="3"
+                                required>{{old('body')}}
+                            </textarea>
+
+                            @error('body')
+                                <div class="invalid-feedback">{{ $message }}</div>
+                            @enderror
                         </div>
                             <button type="submit" class="btn btn-primary mt-4 float-end">Publish</button>
                             @if ($errors->any())

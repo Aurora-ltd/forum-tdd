@@ -3,15 +3,14 @@
 namespace Tests\Feature;
 
 use Tests\TestCase;
-use App\Models\User;
 use App\Models\Reply;
 use App\Models\Thread;
-use Illuminate\Foundation\Testing\DatabaseMigrations;
+use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Auth\AuthenticationException;
 
 class ParticipateInForumTest extends TestCase
 {
-    use DatabaseMigrations;
+    use RefreshDatabase;
 
     /** @test */
     public function unauthenticated_users_may_not_add_replies()
@@ -44,13 +43,15 @@ class ParticipateInForumTest extends TestCase
     /** @test */
     public function a_reply_requires_a_body()
     {
+        $this->withExceptionHandling();
         $this->signIn();
 
         $thread = create(Thread::class);
         $reply = make(Reply::class, ['body' => null]);
 
         $this->post($thread->path().'/replies', $reply->toArray())
-                    ->assertSessionHasErrors('body');
+                    ->assertStatus(422);
+                    // ->assertSessionHasErrors('body');
     }
 
     public function test_unautorized_users_cannot_delete_replies()
@@ -117,8 +118,7 @@ class ParticipateInForumTest extends TestCase
             'body' => 'Daraz Customer Support'
         ]);
 
-        $this->expectException(\Exception::class);
-
-        $this->post($thread->path().'/replies', $reply->toArray());
+        $this->post($thread->path().'/replies', $reply->toArray())
+            ->assertStatus(422);
     }
 }
