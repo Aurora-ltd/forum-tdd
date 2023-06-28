@@ -50,8 +50,7 @@ class ParticipateInForumTest extends TestCase
         $reply = make(Reply::class, ['body' => null]);
 
         $this->post($thread->path().'/replies', $reply->toArray())
-                    ->assertStatus(422);
-                    // ->assertSessionHasErrors('body');
+                    ->assertSessionHasErrors('body');
     }
 
     public function test_unautorized_users_cannot_delete_replies()
@@ -110,7 +109,7 @@ class ParticipateInForumTest extends TestCase
 
     public function test_replies_that_contain_spam_may_not_be_created()
     {
-        $this->withoutExceptionHandling();
+        $this->withExceptionHandling();
         $this->signIn();
 
         $thread = create(Thread::class);
@@ -118,12 +117,13 @@ class ParticipateInForumTest extends TestCase
             'body' => 'Daraz Customer Support'
         ]);
 
-        $this->post($thread->path().'/replies', $reply->toArray())
+        $this->json('post', $thread->path().'/replies', $reply->toArray())
             ->assertStatus(422);
     }
 
     public function test_users_may_only_reply_a_maximum_of_once_per_minute()
     {
+        $this->withExceptionHandling();
         $this->signIn();
 
         $thread = create(Thread::class);
