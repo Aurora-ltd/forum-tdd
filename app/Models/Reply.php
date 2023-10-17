@@ -50,6 +50,18 @@ class Reply extends Model
         return $this->created_at->gt(Carbon::now()->subMinute());
     }
 
+    /**
+     *  Fetch all mentioned users within the reply's body.
+     *
+     * @return array
+     */
+    public function mentionedUsers()
+    {
+        preg_match_all('/\@([^\s\.]+)/', $this->body, $matches);
+
+        return $matches[1];
+    }
+
     public function path()
     {
         return $this->thread->path() . "#reply-{$this->id}";

@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use App\Events\ThreadReceivedNewReply;
 use App\Models\Channel;
 use App\Models\ThreadSubscription;
 use App\Http\Traits\RecordsActivity;
@@ -62,13 +63,15 @@ class Thread extends Model
     }
 
     /**
-     * @param mixed $reply
+     * @param array $reply
      *
-     * @return [type]
+     * @return Model
      */
     public function addReply($reply)
     {
         $reply = $this->replies()->create($reply);
+
+        event(new ThreadReceivedNewReply($reply));
 
         // Prepare notifications for all subscribers.
         $this->notifySubscribers($reply);
